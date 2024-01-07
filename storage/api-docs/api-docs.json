@@ -1,0 +1,294 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Kinza tracker swagger API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User login",
+                "description": "User login with email and password",
+                "operationId": "8dcb70df1020986038d098cc08d05dae",
+                "requestBody": {
+                    "description": "User login data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "email@mail.ru"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User successfully logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "access_token": {
+                                                    "type": "string",
+                                                    "example": "token"
+                                                },
+                                                "refresh_token": {
+                                                    "type": "string",
+                                                    "example": "token"
+                                                },
+                                                "expires_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-07T09:27:14.580415Z"
+                                                },
+                                                "token_type": {
+                                                    "type": "string",
+                                                    "example": "bearer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register a new user",
+                "description": "Register a new user",
+                "operationId": "d764dd091cc4494ae0baf360b03319f3",
+                "requestBody": {
+                    "description": "User registration data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "name"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "example@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "example"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "example"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "example"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User successfully registered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User successfully registered"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "admin"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "email@mail.ru"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-07T06:50:59.000000Z"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-07T06:50:59.000000Z"
+                                                },
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "email": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "The email has already been taken."
+                                            }
+                                        },
+                                        "password": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "The password field confirmation does not match."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Refresh a token",
+                "description": "Refresh a token",
+                "operationId": "b2eae7a8032954d25b46c7ec6f489c68",
+                "requestBody": {
+                    "description": "Refresh token",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "refresh_token"
+                                ],
+                                "properties": {
+                                    "refresh_token": {
+                                        "type": "string",
+                                        "example": "token"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User tokens have been updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "access_token": {
+                                                    "type": "string",
+                                                    "example": "token"
+                                                },
+                                                "refresh_token": {
+                                                    "type": "string",
+                                                    "example": "token"
+                                                },
+                                                "expires_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-07T09:27:19.966543Z"
+                                                },
+                                                "token_type": {
+                                                    "type": "string",
+                                                    "example": "bearer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
